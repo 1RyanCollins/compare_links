@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Link Comparison</title>
-    <style>
-        body { font-family: Arial; width: 400px; padding: 10px; }
-        h3 { margin-bottom: 5px; }
-        .link-list { max-height: 200px; overflow-y: auto; margin-bottom: 15px; }
-        .link-list a { display: block; font-size: 12px; margin-bottom: 2px; text-decoration: none; color: blue; }
-    </style>
+  <style>
+    body { font-family: Arial; padding: 10px; width: 350px; }
+    pre { 
+      white-space: pre-wrap; 
+      word-break: break-word; 
+      background: #f3f3f3; 
+      padding: 8px; 
+      border-radius: 6px; 
+      max-height: 150px; 
+      overflow-y: auto;
+    }
+    button { margin-top: 5px; }
+  </style>
 </head>
 <body>
-    <h3>Links in both</h3>
-    <div id="both" class="link-list"></div>
+  <h3>Search Queries</h3>
+  <pre id="queries"></pre>
+  <button id="copyQueries">Copy</button>
 
-    <h3>Only in Google</h3>
-    <div id="googleOnly" class="link-list"></div>
+  <h3>Search Result URLs</h3>
+  <pre id="urls"></pre>
+  <button id="copyUrls">Copy</button>
 
-    <h3>Only in ChatGPT</h3>
-    <div id="chatOnly" class="link-list"></div>
-
-    <script src="popup.js"></script>
+  <script src="popup.js"></script>
 </body>
 </html>
