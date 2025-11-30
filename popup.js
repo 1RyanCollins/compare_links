@@ -1,34 +1,20 @@
-function displayLinks() {
-    chrome.storage.local.get(['googleLinks', 'chatGPTLinks'], (res) => {
-        const googleLinks = res.googleLinks || [];
-        const chatGPTLinks = res.chatGPTLinks || [];
+let queriesEl = document.getElementById("queries");
+let urlsEl = document.getElementById("urls");
 
-        const bothDiv = document.getElementById('both');
-        const googleOnlyDiv = document.getElementById('googleOnly');
-        const chatOnlyDiv = document.getElementById('chatOnly');
+chrome.runtime.sendMessage({ event: "getData" });
 
-        const googleSet = new Set(googleLinks);
-        const chatSet = new Set(chatGPTLinks);
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.event === "dataResponse") {
+    queriesEl.textContent = (msg.searchQueries || []).join("\n");
+    urlsEl.textContent = (msg.searchUrls || []).join("\n");
+  }
+});
 
-        const both = googleLinks.filter(link => chatSet.has(link));
-        const googleOnly = googleLinks.filter(link => !chatSet.has(link));
-        const chatOnly = chatGPTLinks.filter(link => !googleSet.has(link));
+document.getElementById("copyQueries").onclick = () => {
+  navigator.clipboard.writeText(queriesEl.textContent);
+};
 
-        function populate(div, links) {
-            div.innerHTML = '';
-            links.forEach(link => {
-                const a = document.createElement('a');
-                a.href = link;
-                a.textContent = link;
-                a.target = "_blank";
-                div.appendChild(a);
-            });
-        }
+document.getElementById("copyUrls").onclick = () => {
+  navigator.clipboard.writeText(urlsEl.textContent);
+};
 
-        populate(bothDiv, both);
-        populate(googleOnlyDiv, googleOnly);
-        populate(chatOnlyDiv, chatOnly);
-    });
-}
-
-displayLinks();
